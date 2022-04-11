@@ -1,0 +1,28 @@
+{
+  "name": "koa2",
+  "version": "1.0.0",
+  "description": "node+koa2+mysql 微信小程序后台（未完）",
+  "main": "app.js",
+  "dependencies": {
+    "koa": "^2.13.4",
+    "koa-router": "^10.1.1",
+    "require-directory": "^2.1.1",
+    "validator": "^10.11.0",
+    "lodash": "^4.17.11",
+    "jsonwebtoken": "^8.4.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Mr-Nobody-li/koa2.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Mr-Nobody-li/koa2/issues"
+  },
+  "homepage": "https://github.com/Mr-Nobody-li/koa2#readme"
+}
