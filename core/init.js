@@ -1,11 +1,12 @@
 const Router = require("koa-router");
 const requireDirectory = require("require-directory");
+const utils = require("../app/utils/index");
 
 class initManager {
   // 初始化
   static initCore(app) {
-    this.initLoadRouter(app);
     this.loadConfig();
+    this.initLoadRouter(app);
   }
   // 初始化路由
   static initLoadRouter(app) {
@@ -22,6 +23,7 @@ class initManager {
     const configPath = process.cwd() + "/config/config.js";
     const config = require(configPath);
     global.config = config;
+    global.utils = utils;
   }
 }
 
