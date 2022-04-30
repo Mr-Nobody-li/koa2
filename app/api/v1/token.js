@@ -6,12 +6,13 @@ const Router = require("koa-router");
 const router = new Router();
 const { TokenValidator } = require("../../validator/validator.js");
 const { User } = require("../../module/user");
+const { Wx } = require("../../services/wx");
 
 /**
  * @description: 登录校验
  * @param type {*} 登陆类型
- * @param account {*} 登陆账号
- * @param secret {*} 登陆密码
+ * @param account {*} 登陆账号(不同登陆类型下账号不同)
+ * @param secret {*} 登陆密码（可选，不同登陆类型下密码不同）
  * @return token {*} token
  */
 router.post("/v1/token", async (ctx, next) => {
@@ -20,10 +21,13 @@ router.post("/v1/token", async (ctx, next) => {
 
   let token;
 
-  // type：登陆类型 小程序、邮箱密码...
+  // 登陆类型
   switch (v.get("body.type")) {
+    // 小程序登录
     case global.config.loginType.USER_MINI_PROGRAM:
+      await Wx.code2Session(v.get("body.account"));
       break;
+    // 邮箱密码
     case global.config.loginType.USER_EMAIL:
       token = await emailLogin(v.get("body.account"), v.get("body.secret"));
       break;
@@ -40,6 +44,7 @@ router.post("/v1/token", async (ctx, next) => {
   };
 });
 
+// 邮箱密码登陆
 async function emailLogin(account, secret) {
   const user = await User.verifyEmailPassword(account, secret);
   const token = global.utils.generateToken(user.id, 2);

@@ -21,4 +21,10 @@ module.exports = {
     secretKey: "faeaf",
     expiresIn: 60 * 60,
   },
+  wx: {
+    AppID: "wxc84b7729a71d20d9",
+    AppSecret: "00e57b37511260cb06f440e5d8944ae1",
+    code2SessionUrl:
+      "https://api.weixin.qq.com/sns/jscode2session?appid=%s&secret=%s&js_code=%s&grant_type=authorization_code",
+  },
 };

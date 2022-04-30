@@ -4,6 +4,7 @@
   "description": "node+koa2+mysql 微信小程序后台（未完）",
   "main": "app.js",
   "dependencies": {
+    "axios": "^0.27.2",
     "basic-auth": "^2.0.1",
     "bcryptjs": "^2.4.3",
     "jsonwebtoken": "^8.4.0",

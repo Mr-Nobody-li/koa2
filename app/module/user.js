@@ -1,7 +1,6 @@
 const bcryptjs = require("bcryptjs");
 const { Sequelize, Model } = require("sequelize");
 const { db } = require("../../core/db");
-const { AuthFail } = require("../../core/http-exception");
 
 class User extends Model {
   // 验证邮箱和密码
@@ -9,11 +8,11 @@ class User extends Model {
     const user = await User.findOne({
       where: { email },
     });
-    if (!user) throw new AuthFail("账号不存在");
+    if (!user) throw new global.err.AuthFail("账号不存在");
 
     // 判断传入的密码和数据库中的是否一致
     const isCorrect = bcryptjs.compareSync(plainPassword, user.password);
-    if (!isCorrect) throw new AuthFail("密码错误");
+    if (!isCorrect) throw new global.err.AuthFail("密码错误");
     return user;
   }
 }
