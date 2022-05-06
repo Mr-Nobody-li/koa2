@@ -7,6 +7,7 @@ const router = new Router();
 const { TokenValidator } = require("../../validator/validator.js");
 const { User } = require("../../module/user");
 const { Wx } = require("../../services/wx");
+const Auth = require("../../../middlewares/auth.js");
 
 /**
  * @description: 登录校验
@@ -25,7 +26,7 @@ router.post("/v1/token", async (ctx, next) => {
   switch (v.get("body.type")) {
     // 小程序登录
     case global.config.loginType.USER_MINI_PROGRAM:
-      await Wx.code2Session(v.get("body.account"));
+      token = await Wx.code2token(v.get("body.account"));
       break;
     // 邮箱密码
     case global.config.loginType.USER_EMAIL:
@@ -47,7 +48,7 @@ router.post("/v1/token", async (ctx, next) => {
 // 邮箱密码登陆
 async function emailLogin(account, secret) {
   const user = await User.verifyEmailPassword(account, secret);
-  const token = global.utils.generateToken(user.id, 2);
+  const token = global.utils.generateToken(user.id, Auth.USER);
   return token;
 }
 

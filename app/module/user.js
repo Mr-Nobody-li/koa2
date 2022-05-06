@@ -15,6 +15,22 @@ class User extends Model {
     if (!isCorrect) throw new global.err.AuthFail("密码错误");
     return user;
   }
+
+  // 通过微信openid获取用户
+  static async getUserByOpenid(openid) {
+    const user = await User.findOne({
+      where: { openid },
+    });
+    return user;
+  }
+
+  // 通过微信openid注册用户
+  static async registerByOpenid(openid) {
+    const user = await User.create({
+      openid,
+    });
+    return user;
+  }
 }
 
 User.init(

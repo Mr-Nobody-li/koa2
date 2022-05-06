@@ -16,7 +16,7 @@ const generateToken = (uid, scope) => {
   const token = jwt.sign(
     {
       uid,
-      expiresIn,
+      scope,
     },
     secretKey,
     { expiresIn }
