@@ -4,17 +4,17 @@
  */
 const Router = require("koa-router");
 const router = new Router();
-const { TokenValidator } = require("../../validator/validator.js");
+const { TokenValidator, verifyToken } = require("../../validator/validator.js");
 const { User } = require("../../module/user");
 const { Wx } = require("../../services/wx");
 const Auth = require("../../../middlewares/auth.js");
 
 /**
  * @description: 登录校验
- * @param type {*} 登陆类型
- * @param account {*} 登陆账号(不同登陆类型下账号不同)
- * @param secret {*} 登陆密码（可选，不同登陆类型下密码不同）
- * @return token {*} token
+ * @param type {string} 登陆类型
+ * @param account {string} 登陆账号(不同登陆类型下账号不同)
+ * @param secret {string} 登陆密码（可选，不同登陆类型下密码不同）
+ * @return token {string} token
  */
 router.post("/v1/token", async (ctx, next) => {
   // 校验传参
@@ -42,6 +42,19 @@ router.post("/v1/token", async (ctx, next) => {
 
   ctx.body = {
     token,
+  };
+});
+
+/**
+ * @description: 校验token
+ * @param token {string} token
+ * @return result {boolean} token是否正确
+ */
+router.post("/v1/verify", async (ctx, next) => {
+  // 校验传参
+  const v = await new verifyToken().validate(ctx);
+  ctx.body = {
+    result: Auth.verifyToken(v.get("body.token")),
   };
 });
 

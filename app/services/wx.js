@@ -17,7 +17,7 @@ class Wx {
     const { errcode, errmsg, openid, session_key } = data;
 
     if (status !== 200) throw new global.err.AuthFail("openid获取失败");
-    if (errcode) throw new global.err.AuthFail(errmsg);
+    if (errcode) throw new global.err.AuthFail("openid获取失败:", errmsg);
 
     // 创建用户 返回token
     let user = await User.getUserByOpenid(openid);

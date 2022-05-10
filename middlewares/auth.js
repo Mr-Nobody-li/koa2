@@ -13,6 +13,7 @@ class Auth {
     Auth.ADMIN = 16; // 管理员
     Auth.SPUSER_ADMIN = 32; // 超级管理员
   }
+
   get m() {
     return async (ctx, next) => {
       let decode;
@@ -43,6 +44,15 @@ class Auth {
       };
       await next();
     };
+  }
+
+  static verifyToken(token) {
+    try {
+      jwt.verify(token, global.config.security.secretKey);
+      return true;
+    } catch (error) {
+      return false;
+    }
   }
 }
 
