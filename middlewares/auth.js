@@ -1,7 +1,11 @@
 /*
- * @Author: Mr.Nobody
+ * @Author: lipengfei
+ * @Date: 2022-04
+ * @LastEditors: lipengfei
+ * @LastEditTime: 2022-05
  * @Description:权限判断(客户端传过来的token验证)
  */
+
 const auth = require("basic-auth");
 const jwt = require("jsonwebtoken");
 
@@ -17,10 +21,10 @@ class Auth {
   get m() {
     return async (ctx, next) => {
       let decode;
-      // 获取客户端传过来的token
+      // 获取客户端传过来的token(基于http basic-auth传递token)
       const token = auth(ctx.req);
       if (!token || !token.name) {
-        throw global.err.Forbidden("没有token");
+        throw new global.err.Forbidden("没有token");
       }
       // 验证
       const { secretKey, expiresIn } = global.config.security;
@@ -29,13 +33,13 @@ class Auth {
       } catch (error) {
         // token不合法/过期
         if (error.name === "TokenExpiredError") {
-          throw global.err.Forbidden("token过期");
+          throw new global.err.Forbidden("token过期");
         }
-        throw global.err.Forbidden("token不合法");
+        throw new global.err.Forbidden("token不合法");
       }
       // 权限判断
       if (decode.scope < this.level) {
-        throw global.err.Forbidden("权限不足");
+        throw new global.err.Forbidden("权限不足");
       }
       // 返回uid scope
       ctx.auth = {

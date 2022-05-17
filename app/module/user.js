@@ -2,6 +2,7 @@ const bcryptjs = require("bcryptjs");
 const { Sequelize, Model } = require("sequelize");
 const { db } = require("../../core/db");
 
+// User模型（表）
 class User extends Model {
   // 验证邮箱和密码
   static async verifyEmailPassword(email, plainPassword) {
