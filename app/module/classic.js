@@ -14,7 +14,7 @@ const classicFields = {
   // 发布日期
   pubdate: DataTypes.DATEONLY,
   // 点赞次数
-  fav_nums: DataTypes.INTEGER,
+  favNums: DataTypes.INTEGER,
   // 期刊题目
   title: DataTypes.STRING,
   // 期刊类型,这里的类型分为:100 电影 200 音乐 300 句子

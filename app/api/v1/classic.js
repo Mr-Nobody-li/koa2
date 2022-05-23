@@ -9,6 +9,7 @@ const router = new Router();
 const { PositiveIntegerValidator } = require("../../validator/validator.js");
 const Auth = require("../../../middlewares/auth");
 const { Flow } = require("../../module/flow");
+const { Art } = require("../../module/art.js");
 
 // demo
 router.get("/v1/:id/classic", new Auth().m, async (ctx, next) => {
@@ -22,10 +23,15 @@ router.get("/v1/:id/classic", new Auth().m, async (ctx, next) => {
  * @return {*}
  */
 router.get("/v1/classic/latest", new Auth().m, async (ctx, next) => {
-  const index = Flow.findAll({
-    order: ["index", "DESC"],
+  // 获取最新期刊对应的实体表id
+  const flow = await Flow.findOne({
+    order: [["index", "DESC"]],
   });
-  ctx.body = { index };
+  // 获取实体表最新一条数据
+  const art = await Art.getData(flow.art_id, flow.type);
+  // 设置器 https://www.sequelize.com.cn/core-concepts/getters-setters-virtuals
+  art.setDataValue("index", flow.index);
+  ctx.body = art;
 });
 
 module.exports = router;
