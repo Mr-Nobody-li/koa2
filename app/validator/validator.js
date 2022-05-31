@@ -78,9 +78,26 @@ class verifyToken extends LinValidator {
   }
 }
 
+class FavorValidator extends LinValidator {
+  constructor() {
+    super();
+    this.art_id = [
+      new Rule("isLength", "不能为空", {
+        min: 1,
+      }),
+    ];
+    this.type = [
+      new Rule("isLength", "不能为空", {
+        min: 1,
+      }),
+    ];
+  }
+}
+
 module.exports = {
   PositiveIntegerValidator,
   RegisterValidator,
   TokenValidator,
   verifyToken,
+  FavorValidator,
 };

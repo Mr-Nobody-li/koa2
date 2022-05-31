@@ -1,3 +1,10 @@
+/*
+ * @Author: lipengfei
+ * @Date: 2022-04
+ * @LastEditors: lipengfei
+ * @LastEditTime: 2022-05
+ * @Description: 连接mysql数据库
+ */
 const { Sequelize } = require("sequelize");
 const { dbName, host, port, user, password } =
   require("../config/config").database;
@@ -20,5 +27,5 @@ sequelize.sync({ force: false });
 console.log("所有模型均已成功同步.");
 
 module.exports = {
-  db: sequelize,
+  sequelize,
 };

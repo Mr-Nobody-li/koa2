@@ -1,5 +1,12 @@
+/*
+ * @Author: lipengfei
+ * @Date: 2022-04
+ * @LastEditors: lipengfei
+ * @LastEditTime: 2022-05
+ * @Description:全局异常处理中间件
+ */
 const { HttpException } = require("../core/http-exception");
-// 全局异常处理中间件
+
 const catchError = async (ctx, next) => {
   try {
     await next();

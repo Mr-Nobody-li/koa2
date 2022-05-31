@@ -1,6 +1,6 @@
 const bcryptjs = require("bcryptjs");
 const { Sequelize, Model } = require("sequelize");
-const { db } = require("../../core/db");
+const { sequelize } = require("../../core/db");
 
 // User模型（表）
 class User extends Model {
@@ -60,7 +60,7 @@ User.init(
       unique: true,
     },
   },
-  { sequelize: db }
+  { sequelize }
 );
 
 module.exports = {

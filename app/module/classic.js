@@ -5,7 +5,7 @@
  * @Description:音乐、书、电影表
  */
 const { Sequelize, Model, DataTypes } = require("sequelize");
-const { db } = require("../../core/db");
+const { sequelize } = require("../../core/db");
 
 const classicFields = {
   image: DataTypes.STRING,
@@ -30,9 +30,9 @@ class Sentence extends Model {}
 // Movie模型（表）
 class Music extends Model {}
 
-Movie.init(classicFields, { sequelize: db });
-Sentence.init(classicFields, { sequelize: db });
-Music.init({ url: DataTypes.STRING, ...classicFields }, { sequelize: db });
+Movie.init(classicFields, { sequelize });
+Sentence.init(classicFields, { sequelize });
+Music.init({ url: DataTypes.STRING, ...classicFields }, { sequelize });
 
 module.exports = {
   Movie,

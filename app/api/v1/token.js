@@ -1,7 +1,11 @@
 /*
- * @Author: Mr.Nobody
+ * @Author: lipengfei
+ * @Date: 2022-04
+ * @LastEditors: lipengfei
+ * @LastEditTime: 2022-05
  * @Description:登录校验接口
  */
+
 const Router = require("koa-router");
 const router = new Router();
 const { TokenValidator, verifyToken } = require("../../validator/validator.js");

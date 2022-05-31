@@ -1,11 +1,15 @@
 /*
- * @Author: Mr.Nobody
+ * @Author: lipengfei
+ * @Date: 2022-04
+ * @LastEditors: lipengfei
+ * @LastEditTime: 2022-05
  * @Description:全局配置项
  */
+
 module.exports = {
   environment: "dev",
   database: {
-    dbName: "koa",
+    dbName: "koa2",
     host: "localhost",
     port: 3306,
     user: "root",

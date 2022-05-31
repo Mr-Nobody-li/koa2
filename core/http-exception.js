@@ -1,7 +1,11 @@
 /*
- * @Author: Mr.Nobody
- * @Description:错误类型
+ * @Author: lipengfei
+ * @Date: 2022-04
+ * @LastEditors: lipengfei
+ * @LastEditTime: 2022-05
+ * @Description:错误
  */
+
 class HttpException extends Error {
   constructor(msg = "服务器异常", errorCode = 10000, status = 500) {
     super();
@@ -56,6 +60,15 @@ class Forbidden extends HttpException {
   }
 }
 
+class FavorError extends HttpException {
+  constructor(msg = "已经点过赞了", errorCode = 0) {
+    super();
+    this.msg = msg;
+    this.errorCode = errorCode;
+    this.status = 400;
+  }
+}
+
 module.exports = {
   HttpException,
   ParameterException,
@@ -63,4 +76,5 @@ module.exports = {
   NotFound,
   AuthFail,
   Forbidden,
+  FavorError,
 };
