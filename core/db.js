@@ -2,7 +2,7 @@
  * @Author: lipengfei
  * @Date: 2022-04
  * @LastEditors: lipengfei
- * @LastEditTime: 2022-05
+ * @LastEditTime: 2022-06
  * @Description: 连接mysql数据库
  */
 const { Sequelize } = require("sequelize");
@@ -20,6 +20,7 @@ const sequelize = new Sequelize(dbName, user, password, {
     freezeTableName: true,
     // 建表时自动创建createdAt、updatedAt字段
     timestamps: true,
+    paranoid: true,
   },
 });
 

@@ -2,7 +2,7 @@
  * @Author: lipengfei
  * @Date: 2022-05
  * @LastEditors: lipengfei
- * @LastEditTime: 2022-05
+ * @LastEditTime: 2022-06
  * @Description:favor模型 用户对哪些业务类型点过赞
  */
 const { Sequelize, Model, DataTypes } = require("sequelize");
@@ -40,6 +40,43 @@ class Favor extends Model {
     } catch (error) {
       throw new global.err.FavorError("点赞失败", 60001);
     }
+  }
+
+  // 取消点赞
+  static async disLike(art_id, type, uid) {
+    // 判断有没有点赞记录
+    const favor = await Favor.findOne({
+      where: {
+        art_id,
+        uid,
+        type,
+      },
+    });
+    if (!favor) throw new global.err.FavorError("没有点赞", 60001);
+    // 事务
+    try {
+      sequelize.transaction(async (t) => {
+        // 删除点赞记录
+        await favor.destroy({ force: false, transaction: t });
+        // 点赞数减1
+        const art = await Art.getData(art_id, type);
+        await art.decrement("favNums", { by: 1, transaction: t });
+      });
+    } catch (error) {
+      throw new global.err.FavorError("取消点赞失败", 60001);
+    }
+  }
+
+  // 用户是否喜欢该期刊
+  static async isUserLike(art_id, type, uid) {
+    const favor = await Favor.findOne({
+      where: {
+        art_id,
+        type,
+        uid,
+      },
+    });
+    return !!favor;
   }
 }
 

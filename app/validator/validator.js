@@ -94,10 +94,18 @@ class FavorValidator extends LinValidator {
   }
 }
 
+//
+class NotValidator extends LinValidator {
+  constructor() {
+    super();
+  }
+}
+
 module.exports = {
   PositiveIntegerValidator,
   RegisterValidator,
   TokenValidator,
   verifyToken,
   FavorValidator,
+  NotValidator,
 };
