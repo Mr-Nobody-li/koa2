@@ -99,4 +99,25 @@ router.get("/:index/previous", new Auth().m, async (ctx, next) => {
   };
 });
 
+/**
+ * @description: 获取期刊点赞情况
+ * @param index {string} flow表中的index字段，期刊号
+ * @return {
+ *  fav_nums:number  该期刊点赞数量
+ *  like_status:boolean 当前用户是否点赞了该期刊
+ * }
+ */
+router.get("/:type/:id/favor", new Auth().m, async (ctx) => {
+  const v = await new NotValidator().validate(ctx);
+  const id = v.get("path.id");
+  const type = parseInt(v.get("path.type"));
+  const art = await Art.getData(id, type);
+  const like = await Favor.isUserLike(id, type, ctx.auth.uid);
+  if (!art) throw new global.err.NotFound();
+  ctx.body = {
+    fav_nums: art.fav_nums,
+    like_status: like,
+  };
+});
+
 module.exports = router;
