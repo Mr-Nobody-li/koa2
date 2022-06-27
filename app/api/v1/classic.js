@@ -24,7 +24,7 @@ router.get("/v1/:id/classic", new Auth().m, async (ctx, next) => {
 
 /**
  * @description: 获取最新一个期刊(书、电影或歌曲的)
- * @return {*}
+ * @return {}
  */
 router.get("/v1/classic/latest", new Auth().m, async (ctx, next) => {
   // 获取最新期刊对应的实体表id
@@ -61,6 +61,38 @@ router.get("/:index/next", new Auth().m, async (ctx, next) => {
 
   art.setDataValue("index", flow.index);
   art.setDataValue("like_status", likeNext);
+
+  ctx.body = {
+    art,
+  };
+});
+
+/**
+ * @description: 获取上一个期刊
+ * @param index {string} flow表中的index字段，期刊号
+ * @return {*}
+ */
+router.get("/:index/previous", new Auth().m, async (ctx, next) => {
+  const v = await new NotValidator().validate(ctx);
+  const index = v.get("path.index");
+  const flow = await Flow.findOne({
+    where: {
+      index: index - 1,
+    },
+  });
+  if (!flow) {
+    throw new global.err.NotFound();
+  }
+
+  let art = await Art.getData(flow.art_id, flow.type);
+  const likePrevious = await Favor.isUserLike(
+    flow.art_id,
+    flow.type,
+    ctx.auth.uid
+  );
+
+  art.setDataValue("index", flow.index);
+  art.setDataValue("like_status", likePrevious);
 
   ctx.body = {
     art,
