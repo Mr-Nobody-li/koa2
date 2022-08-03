@@ -2,10 +2,10 @@
  * @Author: lipengfei
  * @Date: 2022-05
  * @LastEditors: lipengfei
- * @LastEditTime: 2022-06
+ * @LastEditTime: 2022-08
  * @Description:favor模型 用户对哪些业务类型点过赞
  */
-const { Sequelize, Model, DataTypes } = require("sequelize");
+const { Sequelize, Model, DataTypes, Op } = require("sequelize");
 const { sequelize } = require("../../core/db");
 const { Art } = require("./art");
 
@@ -77,6 +77,23 @@ class Favor extends Model {
       },
     });
     return !!favor;
+  }
+
+  // 获取用户喜欢的期刊列表
+  static async getUserFavorList(uid) {
+    // 注意：期刊不包括书籍，故排除type为400的记录
+    const favorList = await Favor.findAll({
+      where: {
+        uid,
+        type: {
+          [Op.not]: 400,
+        },
+      },
+    });
+    if (!favorList) throw new global.err.NotFound();
+
+    // 根据favor表查询到的数据，查询期刊实体表
+    return await Art.getList(favorList);
   }
 }
 

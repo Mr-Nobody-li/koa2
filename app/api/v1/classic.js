@@ -1,7 +1,7 @@
 /*
  * @Author: Mr.Nobody
  * @Date: 2022-04-11 23:44:23
- * @LastEditTime: 2022-06
+ * @LastEditTime: 2022-08
  * @Description: classic api
  */
 const Router = require("koa-router");
@@ -118,6 +118,15 @@ router.get("/:type/:id/favor", new Auth().m, async (ctx) => {
     fav_nums: art.fav_nums,
     like_status: like,
   };
+});
+
+/**
+ * @description: 获取某个用户喜欢的期刊
+ * @return classicInfo[] classicInfo：期刊详情
+ */
+router.get("/favor", new Auth().m, async (ctx) => {
+  const uid = ctx.auth.uid;
+  ctx.body = await Favor.getUserFavorList(uid);
 });
 
 module.exports = router;
